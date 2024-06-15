@@ -8,7 +8,15 @@
 
 ## Intro
 
+本文初稿写于2023年7月中旬。
+
+虽然写的还算详细，但阅读本文仍需具备一定的相关知识。
+
+
+
 高三的上机课还是挺多的，绝对有必要好好利用，从5月份进入高三到现在，已有了些成果，正好现在放暑假了，就想着把这些研究成果记录下来，就有了这篇文章。
+
+
 
 ## 上网
 
@@ -24,29 +32,31 @@
 
 <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230716224525959.png" alt="image-20230716224525959" style="zoom: 50%;" />
 
-可以发现这玩意好像还挺牛逼的
+发现这玩意功能挺多的。
 
 <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230717160036193.png" alt="image-20230717160036193" style="zoom:50%;" />
 
-但是上网的方法还是有的，下面就介绍几种上网的思路。
+但是咱们仍然可以玩游戏或者上网，下面就介绍几种上网的方法及其原理。
 
 ### DNS隧道
 
-如果你在没有登录的情况下，随便ping一个域名，应该会看到这样的提示：
+如果在没有登录的情况下，随便ping一个域名，应该会看到这样的提示：
 
 <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230717155656445.png" alt="image-20230717155656445" style="zoom:33%;" />
 
-从输出的信息中可以看到，你ping的是一个域名，然后它把域名解析成了ip。
+从输出的信息中可以看到，ping的是一个域名，因为还没登录，没有ping成功。
 
-有没有发现什么问题？解析域名，肯定是要和外部网络的DNS服务器通信的；你没有登录，但是这样的通信仍然可以进行。
+但是域名对应的ip被解析出来了。
 
-说明在没有登录的情况下仍然可以使用DNS协议。
+有没有发现什么问题？解析域名，肯定是要和外部网络的DNS服务器通信的；在没有登录的情况下，这样的通信仍然可以进行。
 
-这当然也是有原因的，因为如果不能正常解析域名，当打开一个网站的时候，就直接报错，这样就不能实现自动重定向到登录页面了。
+**说明在没有登录的情况下仍然可以使用DNS协议。**
+
+这当然也是有原因的，因为如果不能正常解析域名，当打开一个网站的时候，就会直接报错，这样就不能实现自动重定向到登录页面了。
 
 所以可以利用这点，搭建一个代理服务器，主机和代理服务器之间的通信伪装成DNS协议。
 
-但是怎么伪装呢？经过测试，**只要某一个协议是基于UDP的，并且使用53端口，就可以免登录直接用，本文介绍的方法都是基于这个原理**
+但是怎么伪装呢？经过测试，**53端口上的UDP不受登录的限制，本文介绍的方法都是基于这个原理**。
 
 #### v2ray
 
@@ -66,7 +76,7 @@ v2ray是一个用来翻墙的软件，在这里也可以用作绕过上网认证
 
 ![image-20230909193731814](https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230909193731814.png)
 
-原作者在2019年11月 在欧洲消失。此后v2ray改名v2fly，由社区开发。
+原作者在2019年11月 在欧洲消失。此后v2ray改名v2fly，由社区接手继续开发。
 
 <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230909204537859.png" alt="image-20230909204537859" style="zoom:50%;" />
 
@@ -74,13 +84,13 @@ v2ray是一个用来翻墙的软件，在这里也可以用作绕过上网认证
 
 既然是代理服务器，那肯定是需要一台vps的，如果需要翻墙的话需要选择国外的服务器。
 
-但是国内的服务器需要实名认证，而且价格贵带宽小，建议直接选择国外服务器，比如这个
+但是国内的服务器价格贵，带宽小，建议选择国外服务器，比如这个
 
 <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230909193824461.png" alt="image-20230909193824461" style="zoom:50%;" />
 
 一年190RMB，一个月500G，500Mbps的带宽，性价比很高。
 
-买好了之后随便安装一个Linux系统，这里我选的是Ubuntu，连上ssh，安装x-ui（x-ui是一个简单易用的管理x-ray节点的面板）
+买完，连上ssh，安装x-ui（x-ui是一个简单易用的管理x-ray节点的面板）
 
 ```bash
 bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
@@ -100,67 +110,35 @@ bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
 
 
 
-如果没有服务器或者不想自己搭建的话，也可以去买现成的。
-
-<img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230717160715815.png" alt="image-20230717160715815" style="zoom:50%;" />
-
-<img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230717160737013.png" alt="image-20230717160737013" style="zoom:33%;" />
-
-1个月11块，1588g，可以用于绕过校园网，当然也可以翻墙，还可以用于手机流量的免流（这个自行研究）
-
 ##### 运行
 
 **注意所有基于v2ray的客户端只提供系统代理，这样只有浏览器和其他遵循系统代理的软件才能上网，如果有其他软件上网的需要，需要使用sstap，通过虚拟网卡的方式强制让所有软件走系统代理**
 
-v2ray原生的客户端是CLI程序，也就是没有GUI界面，所以可以选择一个v2ray的gui封装
+QV2ray 基于QT C++编写 不需要任何依赖，支持32位 ，已经停更，但是不影响使用 注意需要手动下载内核
 
-- QV2ray 基于QT C++编写 不需要任何依赖，支持32位 已经停更，但是不影响使用 注意需要手动下载内核
+首先下载qv2ray https://github.com/Qv2ray/Qv2ray/releases
 
-  首先下载qv2ray https://github.com/Qv2ray/Qv2ray/releases
+和v2ray内核 https://github.com/v2fly/v2ray-core/releases 注意v2ray-core的版本不要高于5 
 
-  和v2ray https://github.com/v2fly/v2ray-core/releases 注意v2ray-core的版本不要高于5 
+然后点击首选项 设置内核路径
 
-  然后点击首选项 设置内核路径
+<img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230930122933238.png" alt="image-20230930122933238" style="zoom:33%;" />
 
-  <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230930122933238.png" alt="image-20230930122933238" style="zoom:33%;" />
+把绕过中国大陆这个选项勾掉，否则国内网站不会走代理
 
-  把绕过中国大陆这个选项勾掉，否则国内网站不会使用代理
+<img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230930123000281.png" alt="image-20230930123000281" style="zoom:33%;" />
 
-  <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230930123000281.png" alt="image-20230930123000281" style="zoom:33%;" />
+如果需要在局域网内共享代理，把监听ip改成0.0.0.0
 
-  如果需要在局域网内共享代理，把监听ip改成0.0.0.0
+<img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230930123027728.png" alt="image-20230930123027728" style="zoom:33%;" />
 
-  <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230930123027728.png" alt="image-20230930123027728" style="zoom:33%;" />
+然后让别人设置好ip和端口
 
-  然后让别人设置好ip和端口
-
-  <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230930123100209.png" alt="image-20230930123100209" style="zoom:50%;" />
-
-  就可以上网冲浪了。
-
-  
-
-- v2rayN 基于.NET框架 需要.NET Framwork 
-
-  这是主流的windows平台下的v2ray gui
-
-  目前github上将近50k star![image-20230909195612165](https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230909195612165.png)
-
-  不支持32bit系统
-
-  64位下需要选择自带.net framework的版本 <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230909195745872.png" alt="image-20230909195745872" style="zoom:50%;" />
-
-先复制好v2ray的分享链接，进入软件的主界面，直接按ctrl+v粘贴进来，按enter选中。
-
-
-
-<img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230930123216647.png" alt="image-20230930123216647" style="zoom:33%;" />
-
-在系统托盘里右击v2rayn图标，将路由模式改为全局<img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230930123358648.png" alt="image-20230930123358648" style="zoom: 50%;" />
-
-再去设置里，运行局域网连接<img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230930123458751.png" alt="image-20230930123458751" style="zoom:33%;" />
+<img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230930123100209.png" alt="image-20230930123100209" style="zoom:50%;" />
 
 就可以上网冲浪了。
+
+
 
 几个注意点
 
@@ -169,7 +147,9 @@ v2ray原生的客户端是CLI程序，也就是没有GUI界面，所以可以选
 
 #### Java
 
-如果你所在的环境无法使用u盘，那么就不能直接使用上面的方法了。
+~~如果你所在的环境无法使用u盘，那么就不能直接使用上面的方法了。~~
+
+这个是早期的方法，现在已经破解了u盘限制。这一小节可以忽略，没有实用价值。
 
 学校的32bit系统里，有个Dreamweaver，它的安装目录下有JDK1.6，可以自己做一个简单的文件传输协议来获取v2ray
 
@@ -275,7 +255,7 @@ public class Server {
 
 #### HTTP/3
 
-HTTP1.1和HTTP/2是基于TCP的
+一般认为HTTP协议是基于TCP协议的，但是最新的HTTP/3已经不使用TCP了，转而使用UDP。
 
 > **HTTP/3**是第三个主要版本的[HTTP](https://zh.wikipedia.org/wiki/HTTP)协议。与其前任[HTTP/1.1](https://zh.wikipedia.org/wiki/超文本传输协议#HTTP/1.1)和[HTTP/2](https://zh.wikipedia.org/wiki/HTTP/2)不同，在HTTP/3中，将弃用[TCP](https://zh.wikipedia.org/wiki/传输控制协议)协议，改为使用基于[UDP](https://zh.wikipedia.org/wiki/用户数据报协议)协议的[QUIC](https://zh.wikipedia.org/wiki/快速UDP网络连接)协议实现。[[1\]](https://zh.wikipedia.org/wiki/HTTP/3#cite_note-1)
 >
@@ -295,9 +275,11 @@ UDP协议，有没有想到什么？
 
 <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230909204831599.png" alt="image-20230909204831599" style="zoom:50%;" />
 
-这东西可以直接在网页上代理，连v2ray也不用了。
+它可以直接在网页上代理，这样就可以实现不需要任何软件进行上网
 
-这个我还没研究明白，这段内容下回补上。
+repo：https://github.com/netptop/siteproxy
+
+自行研究。
 
 ### 窃取密码
 
@@ -317,7 +299,7 @@ ARP，即地址解析协议，是一种在OSI数据链路层中使用的协议�
 
 然而，以太网是一种广播式网络，一个主机发送的数据包其他主机也可以看到。因此，攻击者有可能通过应答ARP包，在短时间内大量回应，以覆盖交换机缓存中正确的MAC地址。接着，被欺骗的主机所发送的数据将不会被正确地发送到目标主机，而是被发送到攻击者的主机上。攻击者可以查看和修改这些数据，这就是ARP欺骗。
 
-如果攻击者只是欺骗交换机，那么受害主机的流量，发送到攻击主机上，就没有后续了，这样受害主机就断网了
+如果攻击者只是欺骗交换机，那么受害主机的流量，被发送到攻击主机上，不进行任何处理，这样受害主机就断网了
 
 如果欺骗交换机后再把流量正确地转发，那么就可以看到被害主机的流量，而且被害主机不会觉察到任何异常
 
@@ -329,19 +311,25 @@ arpspoof的github https://github.com/alandau/arpspoof
 
 wireshark的官网 https://www.wireshark.org/
 
-下载完后就可以开整了。整个过程 简单地说，就是用arpspoof实现让目标主机的所有流量经过自己的主机，然后把流量正确地发送到目的地然后返回给目标主机。
+输入命令：
+
+~~~bash
+arpspoof 目标ip
+~~~
+
+
 
 <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230801122030609.png" alt="image-20230801122030609" style="zoom:33%;" />
 
-然后用wireshark查看经过自己主机的流量。
+如果看到上图的输出就表示arp攻击成功进行。
 
-arpspoof已经开始工作了。然后打开wireshark
+然后用wireshark查看经过自己主机的流量。
 
 <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230801122127613.png" alt="image-20230801122127613" style="zoom:33%;" />
 
 可以看到，wireshark里捕获到了我手机的http流量。
 
-这样的攻击 ，防御的方法也是有的，可以在交换机里把ip和mac的对应关系写死，但是咱学校应该是不会的。
+这样的攻击 ，也是可以防御的，比如在交换机里把ip和mac的对应关系写死，就能避免了，但是咱学校应该是不会的。
 
 <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230716224800902.png" alt="image-20230716224800902" style="zoom: 33%;" />
 
@@ -355,19 +343,11 @@ arpspoof已经开始工作了。然后打开wireshark
 
 学校的电脑是Acer的品牌机，但是在网上没有找到相同配置的，搜到的硬盘保护卡的资料也很少。
 
-但是没有关系，能搞到密码就能随便玩了。
-
 我能弄到密码也是机缘巧合，我通过注册表获得的极域的管理密码，然后突然想到 有没有可能硬盘保护卡的密码和极域的一样。
 
 结果就是一样的。
 
 
-
-如果不能通过上面的方法获取密码，可以看看这篇文章，文中的方法我没有尝试过。
-
-[链接]: https://www.52pojie.cn/thread-982038-1-1.html
-
-<img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20230930120628524.png" alt="image-20230930120628524" style="zoom:33%;" />
 
 2024.1.12更新
 
@@ -376,6 +356,8 @@ arpspoof已经开始工作了。然后打开wireshark
 很显然，硬盘保护卡管理器的设计是有问题的，它在软件启动时，从硬件获取明文密码，读取到内存里，然后在用户输入的时候，把用户输入的字符串和之前获取的密码对比。
 
 这样的设计，对一般人来说，没什么问题；但是稍微懂点技术，就可以轻松拿下。
+
+其实在2023年11月就发现这个方法了，一直忘记写进来了。
 
 ### U盘
 
@@ -395,11 +377,11 @@ arpspoof已经开始工作了。然后打开wireshark
 
 但是，在这里就不行了，硬盘保护卡会使用自己的引导，无视bios的设置。
 
-这就不太好办了，我暂时想到的方法是使用Clover，就是添加一个Clover的系统，再用Clover引导自己的u盘，相当于套两层引导。
+~~这就不太好办了，我暂时想到的方法是使用Clover，就是添加一个Clover的系统，再用Clover引导自己的u盘，相当于套两层引导。~~
 
-或者在硬盘里安装Windows，再在机房的Windows7手动添加启动项，这需要修改C盘。
+~~或者在硬盘里安装Windows，再在机房的Windows7手动添加启动项，这需要修改C盘。~~
 
-暂时没有尝试。
+~~暂时没有尝试。~~
 
 
 
@@ -409,7 +391,7 @@ arpspoof已经开始工作了。然后打开wireshark
 
 通过查阅说明书得知，在系统引导界面，按下**Home**键然后输入密码，就可以进入管理员模式，在这里可以选择要引导的系统所使用的进度。
 
-光标选择一个空白的系统，按下**Ctrl+O** 然后选择自己的u盘，然后就可以启动自己的系统了
+光标选择一个**空白**的系统，按下**Ctrl+O** 然后选择自己的u盘，然后就可以启动自己的系统了
 
 比如你可以在一块移动硬盘上安装一个win10，然后启动，这样不会对原来的系统产生任何影响。
 
@@ -421,7 +403,9 @@ arpspoof已经开始工作了。然后打开wireshark
 
 VNC是一个远程控制软件，在学校的Windows7 32位系统有这个软件，而且没有设置密码。
 
-这就意味着 你可以只要知道别人的ip，就可以随便控，包括老师，学校的三个机房网络是通的，所以控制其他班的人也是可以的。
+这就意味着 你可以只要知道别人的ip，就可以随便控，包括老师；
+
+学校的三个机房网络是通的，所以控制其他班的人也是可以的。
 
 左边的机房 老师的ip是192.168.44.13	 右边的是192.168.44.101
 
@@ -441,18 +425,16 @@ VNC是一个远程控制软件，在学校的Windows7 32位系统有这个软件
 
 
 
-可能稍有些麻烦，但是它的性能绝对是吊打其他所有同类软件，有着近乎原生的体验，支持直接拽托复制文件。
+可能稍有些麻烦，但是它有着近乎原生的体验（~~在机房里没有~~），支持直接拽托复制文件。
 
-其他软件的原理是在被控端收集显卡渲染好的画面，然后压缩 发给主控端。
 
-而Remote Desktop是把画面传到客户端渲染，减少了网络流量，性能也提高了。
 
 
 
 
 ## 每日交作业
 
-虽然这个和上网无关，但考虑到可能有些人需要，就把这部分内容加进来吧。
+虽然这个和上网无关，但考虑到可能有需要，就把这部分内容加进来吧。
 
 ### 原理
 
@@ -464,7 +446,7 @@ VNC是一个远程控制软件，在学校的Windows7 32位系统有这个软件
 
 可以猜得出来，submitCover就是作业的答案。
 
-所以可以得出结论，不管作业是否设置为老师可见，服务器返回的信息都会包含别人的答案，只是不会显示出来而已。
+所以，不管作业是否设置为老师可见，服务器返回的信息都会包含别人的答案，只是不会显示出来而已。
 
 以此类推，其他的api可能也有类似的设计缺陷，或者说bug。
 
@@ -476,11 +458,11 @@ VNC是一个远程控制软件，在学校的Windows7 32位系统有这个软件
 
 以前还有个更严重的漏洞，可以随意获取作业，不管是不是自己班的，然而，返回的作业内容里包含用户信息，只要遍历所有的作业，就可以获取平台内所有用户信息，信息包括 用户名字，手机号，学校，班级和同学。
 
-当然，现在这个漏洞没了。
+当然，现在这个漏洞修复了
 
 <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20231002205354441.png" alt="image-20231002205354441" style="zoom:33%;" />
 
-没错，是我提交的。没有拿到一分钱。其实，这种体量的用户信息，可以卖到几万USDT
+是我提交的。
 
 
 
@@ -488,13 +470,9 @@ VNC是一个远程控制软件，在学校的Windows7 32位系统有这个软件
 
 其实用开发者工具已经可以看到别人答案了，但是这样太麻烦了。
 
-所以我做了一个QQ Bot，可以直接在QQ内抄答案，我的qq号封了，暂时没法演示。
-
-源码：https://github.com/114514ns/WorkBot
 
 
-
-在去2022年10月的时候，当时是疫情放假在家，我就写了个web端，这是我学react后做的第一个项目，界面有些简陋，但是能用。
+在去2022年10月的时候，当时是疫情放假在家，写了个web端，这是学react后做的第一个项目，界面有些简陋，但是能用。
 
 <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20231002212145264.png" alt="image-20231002212145264" style="zoom: 25%;" />
 
@@ -502,13 +480,19 @@ VNC是一个远程控制软件，在学校的Windows7 32位系统有这个软件
 
 
 
-一年后的现在，国庆假期，花了两天时间重新写了一遍，不只是可以看作业，甚至可以删作业改作业批作业，还有更好看的布局和ui，
+一年后的现在，国庆假期，花了两天时间重新写了一遍，不只是可以看作业，~~甚至可以删作业改作业批作业~~（漏洞已被修复），还有更好看的布局和ui，
 
 这应该算是我一年的进步了
 
 github：https://github.com/114514ns/dailyworkweb
 
+预览：https://work.ikuntech.xyz/login
+
 <img src="https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//imgimage-20231002212414105.png" alt="image-20231002212414105" style="zoom:25%;" />
+
+![image-20240503203221070](https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//img/image-20240503203221070.png)
+
+- ![1717123960281.png](https://img2.imgtp.com/2024/05/31/ejZHYDGn.png)
 
 ## 离线内容
 
@@ -520,7 +504,7 @@ github：https://github.com/114514ns/dailyworkweb
 
 ### PVZ
 
-经典的小游戏。我在可以插u盘后第一个想到的游戏就是PVZ。在此后半年的时间里，大多数人的娱乐，就是PVZ。
+经典的小游戏。我在可以插u盘后第一个想到的游戏就是PVZ。在此后大半年的时间里，大多数人的娱乐，就是PVZ。
 
 ### Minecraft
 
@@ -533,7 +517,7 @@ github：https://github.com/114514ns/dailyworkweb
 #### 多人游戏
 
 有没有想过班上十几个人联机玩mc的感觉？
-可以在64位的系统山部署一台Spigot服务器，这样还能分担客户端的压力
+可以在64位的系统上部署一台Spigot服务器，这样还能分担客户端的压力
 首先，需要去网上获取spigot服务端，可以自己编译，也可以去minecraftversion.net上获取。
 然后
 
@@ -554,6 +538,8 @@ online=mode:false ##关闭正版验证
 ![](https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//img/2024-03-14_09.40.59.png)
 ![](https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//img/2024-03-14_09.09.35.png)
 
+服务器里人最多的时候有11个，每个人都考了290分以上。
+
 
 ## 考试系统
 
@@ -570,7 +556,7 @@ online=mode:false ##关闭正版验证
 看到了TDS协议的数据包，说明客户端直接与SQL Server进行数据交互。
 
 既然这样，那我们就要进数据库一探究竟了...
-wireshark没有显示登陆凭据，而客户端配置工具也没有填写帐号密码的地方，那么，我们可以猜测它的密码是在程序里写死的。
+wireshark没有显示登陆凭据，而客户端配置工具也没有填写帐号密码的地方，所有我们可以猜测它的密码是在程序里写死的。
 
 这个程序使用了UPX加壳，解压一下
 
@@ -578,8 +564,9 @@ wireshark没有显示登陆凭据，而客户端配置工具也没有填写帐�
 upx -d C_CONFIG.EXE
 ```
 
+然后打开火绒剑和配置工具，然后选择提取文件字符串，往下翻几下，可以发现账号和密码，
 
-然后打开火绒剑和配置工具，然后选择提取文件字符串，往下翻几下，可以发现账号和密码，账号：wlks
+账号：wlks
 密码;WWJTwlks
 
 ![](https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//img/dump.jpg)
@@ -602,7 +589,9 @@ upx -d C_CONFIG.EXE
 
 名字可以随便写一个
 
-服务器这一栏，会自动发现局域网内的SQLServer服务器，填写完之后点下一步
+服务器这一栏，会自动查找局域网内的SQLServer服务器，不用管。
+
+填写完之后点下一步
 ![](https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//img/addSrc3.jpg)
 
 账号和密码即为上面拿到的账号密码
@@ -623,7 +612,7 @@ upx -d C_CONFIG.EXE
 - OfficeSuCai Office的素材和答案
 - KaoSheng 存储着考生信息和状态 如果这个账号正在考试，那么还会有他的答案和成绩
 - ChengXuGaiCuo 改错题库
-- ChengXuSheJi 编程题库 有答案，但答案不是明文，可能是经过某种编码或加密，我还没研究出来
+- ChengXuSheJi 编程题库 有答案，但答案不是明文，可能是经过某种编码或加密，暂时没研究出来
 - KaoShiCanShu 存储考试参数，包括考试时间，考试标题，监考密码等
 
 ![](https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//img/access-5.JPG)
@@ -632,14 +621,18 @@ upx -d C_CONFIG.EXE
 
 ![](https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//img/type.JPG)
 
-也可以拿到Word Excel DreamWeaver 的答案
+也可以拿到Word Excel DreamWeaver 的标准答案。
+
 和别人的考试答案，改分数，想干啥就干啥
-这是我写的Parser，需要输入Access导出的xml文件
+
+使用Access导出的数据库，二进制的数据在xml里是以base64存储的
 
 效果:
 ![](https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//img/answer1.JPG)
 
 ![](https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//img/answer2.JPG)
+
+考试系统服务端，数据库和标准答案都在文章开头提到的网盘里面。
 
 ## 硬件
 
@@ -648,22 +641,27 @@ upx -d C_CONFIG.EXE
 u盘肯定是必备的，
 买质量好点的，免得丢数据。
 
+建议选择这个，外观不错，也不贵。
+
+![image-20240612182548905](C:\Users\zhang\AppData\Roaming\Typora\typora-user-images\image-20240612182548905.png)
+
 ### 网卡
 
 如果机房没有网络，那么要上网就需要一张无线网卡，然后手机开热点，风险较大，也不是很有必要，不建议。
 
 ### 蓝牙
 
-如果需要在机房看视频，听歌，就需要USB蓝牙来连接耳机，如果有需要可以整一个。注意和系统的兼容性
+如果需要在机房看视频，听歌，就需要USB蓝牙来连接耳机，如果有需要可以整一个。注意和系统的兼容性，jd上十几块钱就能买到一个。
 
 ## 极域
 
 如果没有杀掉极域进程，那么教师端可以看到你的屏幕画面，这就不好了。
+
 我们可以修改极域学生端获取到的屏幕画面
 
 有现成的工具:StudentRock
 
-![](D:/Text/screenshots/fake.PNG)
+![](https://imgbed-1254007525.cos.ap-nanjing.myqcloud.com//img/fake.PNG)
 原理是向目标进程注入dll，hook GetDOBits这个函数实现自定义屏幕画面
 
 [github](github.com/114514ns/FakeScreen)
@@ -680,12 +678,16 @@ u盘肯定是必备的，
 
 
 
-# 学校内网
+##  学校内网
 
 用nmap扫了下学校内网，发现了
 
 - 两台Vmware Exsi 服务器
+
 - 华三交换机 telnet服务
-- 几台tomcat服务器 猜测是网上阅卷的平台
+
+- 几台tomcat服务器 猜测是网上阅卷平台
+
 - 全校的监控？
-- 
+
+  有兴趣可以研究一下。
